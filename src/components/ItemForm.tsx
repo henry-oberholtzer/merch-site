@@ -5,22 +5,18 @@ import { v4 }from 'uuid';
 
 const ItemForm = (props: ItemFormProps) => {
   const [form, setForm] = useState<ItemData>({
-    title: "Product",
-    image: "https://en.wikipedia.org/wiki/T-shirt#/media/File:Blue_Tshirt.jpg",
-    description: "A Nice Product",
-    quantity: 5,
-    price: 4.99,
-    id: ""
+    title: props.itemData.title,
+    image: props.itemData.image,
+    description: props.itemData.description,
+    quantity: props.itemData.quantity,
+    price: props.itemData.price,
+    id: props.itemData.id
   })
 
   return (
     <>
       <form onSubmit={(e) => {
-        setForm({
-          ...form,
-          id: v4()
-        })
-        console.log(form)
+        setForm(props.isNewItem ? {...form, id: v4() } : form)
         e.preventDefault(); props.handleFormSubmissionFunction(form)}}>
         <div>
           <label htmlFor="title">Title:</label>
@@ -45,13 +41,13 @@ const ItemForm = (props: ItemFormProps) => {
           type="text"
           id="image"
           name="image"
-          value={form.image}
+          value={form.image.toString()}
           onChange={e => {
-            setForm({
-              ...form,
-              image: e.target.value
-            })
-          }
+              setForm({
+                ...form,
+                image: e.target.value
+              })
+            }
           }>
         </input>
       </div>
@@ -114,12 +110,16 @@ const ItemForm = (props: ItemFormProps) => {
 
 ItemForm.propTypes = {
   handleFormSubmissionFunction: PropTypes.func,
-  buttonText: PropTypes.string
+  buttonText: PropTypes.string,
+  itemData: PropTypes.object,
+  isNewItem: PropTypes.bool
 }
 
 interface ItemFormProps {
   handleFormSubmissionFunction:(arg1: ItemData) => void,
   buttonText: string
+  itemData: ItemData
+  isNewItem: boolean
 }
 
 export default ItemForm;
