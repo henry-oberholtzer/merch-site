@@ -11,7 +11,7 @@ const Cart = (props: Cart) => {
         items = props.cartList.map((cartItem) => {
             return (
                 <div key={cartItem.id}>
-                    <CartItem 
+                    <CartItem
                         item={cartItem}
                         adjustFunction={props.adjustFunction}
                     />
@@ -20,19 +20,20 @@ const Cart = (props: Cart) => {
         })
     }
 
-    return(
+    return (
         <>
-        <button onClick={() => props.backButton(props.previousPageView)}><BackArrow /></button>
-        <hr />
-        {items}
-        <button onClick={() => props.purchaseFunction}>Purchase</button>
+            <button onClick={() => props.backButton(props.previousPageView)}><BackArrow /></button>
+            <hr />
+            {items}
+            <hr />
+            <button onClick={() => props.purchaseFunction()}>Purchase</button>
         </>
     )
 }
 
 interface Cart {
     cartList: ItemData[],
-    purchaseFunction: () => void
+    purchaseFunction: () => void;
     adjustFunction: (arg1: cartAdjustObj) => void;
     backButton: (arg1: number) => void;
     previousPageView: number;

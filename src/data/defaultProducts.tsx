@@ -32,6 +32,22 @@ const defaultProducts: ItemData[] = [{
     title: "Weirdo - Normalisation [CD]",
     description: "Tinrib Recordings RIBCD2011",
     id: v4()
+},
+{
+    quantity: 500,
+    price: 4,
+    image: "https://f4.bcbits.com/img/a2127355404_10.jpg",
+    title: "Hypersurface - Nipper's Trip [Digital]",
+    description: "Digital Download of Nipper's Trip",
+    id: v4()
+},
+{
+    quantity: 1,
+    price: 1000000,
+    image: "https://upload.wikimedia.org/wikipedia/en/5/58/Who-Is-William-Onyeabor-cover.jpg",
+    title: "Who is William Onyeabor?",
+    description: "High Chief in Enugu",
+    id: v4()   
 }]
 
 export default defaultProducts;

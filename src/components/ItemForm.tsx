@@ -16,8 +16,15 @@ const ItemForm = (props: ItemFormProps) => {
   return (
     <>
       <form onSubmit={(e) => {
-        setForm(props.isNewItem ? {...form, id: v4() } : form)
-        e.preventDefault(); props.handleFormSubmissionFunction(form)}}>
+        e.preventDefault(); 
+        const id = v4()
+        if (props.isNewItem === true) {
+          props.handleFormSubmissionFunction({...form, id})
+        } else {
+          props.handleFormSubmissionFunction(form)
+            }
+          }
+        }>
         <div>
           <label htmlFor="title">Title:</label>
           <input
@@ -41,7 +48,7 @@ const ItemForm = (props: ItemFormProps) => {
           type="text"
           id="image"
           name="image"
-          value={form.image.toString()}
+          defaultValue={form.image.toString()}
           onChange={e => {
               setForm({
                 ...form,
@@ -57,7 +64,7 @@ const ItemForm = (props: ItemFormProps) => {
           type="textarea"
           id="description"
           name="description"
-          value={form.description}
+          defaultValue={form.description}
           onChange={e => {
             setForm({
               ...form,
@@ -74,7 +81,7 @@ const ItemForm = (props: ItemFormProps) => {
           id="quantity"
           name="quantity"
           placeholder="1"
-          value={form.quantity}
+          defaultValue={form.quantity}
           onChange={e => {
             setForm({
               ...form,
@@ -90,7 +97,7 @@ const ItemForm = (props: ItemFormProps) => {
           type="number"
           id="price"
           name="price"
-          value={form.price}
+          defaultValue={form.price}
           step="0.01"
           min="0"
           onChange={e => {
