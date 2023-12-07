@@ -8,8 +8,8 @@ const ItemSpecifics = (props: ItemSpecifics) => {
         <hr />
         <h3>{props.item.title}</h3>
         {props.item.image !== "" ? <img src={props.item.image} alt={props.item.title} /> : <h1>No Image Available</h1>} 
-        <p>Price: ${props.item.price}</p>
-        <p>In Stock: {props.item.quantity}</p>
+        <p><em>{props.item.description}</em></p>
+        <p>Price: ${props.item.price} | Stock: {props.item.quantity}</p>
         <button onClick={() => props.purchaseItem(props.item.id)}>Purchase</button>
         <hr />
         <button onClick={() => props.editItem(props.item.id)}>Edit Item</button>
