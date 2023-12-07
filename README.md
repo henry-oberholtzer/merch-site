@@ -21,7 +21,19 @@ A Typescript & React.js application by Teddy Peterschmidt & Henry Oberholtzer
 # Component Diagram
 
 - App
+
 - Body
+- Header
+  - Cart
+    * cartList state
+    * quantity of each item in the cart (eg 5x of id)
+    * purchase button
+      * change quantities of items in ItemList corresponding to the amount in the cart
+      * removes items from cart
+    - CartItem
+      * each item has a button to change amount in cart, dependent on amount in stock in itemlist
+      * remove item from cart
+    
   * Contains state of displaying ItemDisplay, ItemSpecifics or ItemForm
     - state contains array of objects ItemData
         * quantity

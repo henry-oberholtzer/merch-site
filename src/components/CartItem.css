@@ -1,0 +1,39 @@
+td {
+    border: 1px solid red
+}
+
+.cartItem {
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+}
+
+.cartItemImage {
+    width: calc(25% - 16px);
+    margin: 8px;
+    display: block;
+}
+
+.cartItemInfo {
+    width: 75%;
+}
+
+.cartItemDesc {
+    width: 50%;
+}
+
+.cartItemDesc * {
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cartItemTotal {
+    width: calc(25% - 16px);
+    margin: 8px
+}
+
+.cartItemTotal * {
+    width: 100px;
+}

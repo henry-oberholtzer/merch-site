@@ -13,7 +13,18 @@
 
 .itemDisplayAnimation:hover {
     transform: scale(1.02);
+}
+
+.itemDisplayCursor:hover {
     cursor: pointer;
+}
+
+.itemDisplayInStock {
+    color: green;
+}
+
+.itemDisplayOutOfStock {
+    color: red;
 }
 
 .itemDisplayFrame {

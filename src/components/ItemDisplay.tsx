@@ -6,9 +6,10 @@ const ItemDisplay = (props: ItemDisplay) => {
     const products = props.itemList.map((item) => {
         return(
             <div className="itemDisplayFrame" key={item.id} onClick={() => props.callbackFunction(item.id)}>
-                <img className="itemDisplayImage itemDisplayAnimation" src={item.image} alt={item.description} />
-                <h4 className="itemDisplayAnimation">{item.title}</h4>
-                <h4>${item.price}</h4>
+                <img className="itemDisplayImage itemDisplayAnimation itemDisplayCursor" src={item.image} alt={item.description} />
+                <h4 className="itemDisplayCursor">{item.title}</h4>
+                <h4>${item.price}
+                {item.quantity > 0 ? <span className="itemDisplayInStock"><em> {item.quantity} In Stock!</em></span> : <span className="itemDisplayOutOfStock"> Out of Stock</span>}</h4>
             </div>
         )
     });
