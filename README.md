@@ -10,6 +10,14 @@ A Typescript & React.js application by Teddy Peterschmidt & Henry Oberholtzer
 - Items should store name, description and quantity, and an item ID
 - User can increase or descrease quantity of an item by an amount
 - User cannot "Buy" items if the quantity is zero
+
+# Technologies Used
+
+- React
+- Vite
+- Typescript
+- Webpack
+
 # Component Diagram
 
 - App

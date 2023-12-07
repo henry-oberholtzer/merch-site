@@ -1,0 +1,23 @@
+.itemDisplayContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.itemDisplayImage {
+    max-height: 400px;
+}
+
+.itemDisplayAnimation {
+    transition: transform 0.2s ease-in-out;
+}
+
+.itemDisplayAnimation:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.itemDisplayFrame {
+    padding: 10px;
+    margin: 10px 0px;
+    width: 400px;
+}
