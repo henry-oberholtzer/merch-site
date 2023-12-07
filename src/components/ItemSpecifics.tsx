@@ -6,7 +6,7 @@ const ItemSpecifics = (props: ItemSpecifics) => {
         <>
         <button onClick={() => props.backButton(0)}>Return To Products</button>
         <hr />
-        <img src={props.item.image} alt={props.item.title} />
+        {() => props.item.image === "" ? <img src={props.item.image} alt={props.item.title} /> : <h1>No Image Available</h1>} 
         <h3>{props.item.title}</h3>
         <p>Price: ${props.item.price}</p>
         <p>In Stock: {props.item.quantity}</p>
