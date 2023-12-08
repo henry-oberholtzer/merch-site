@@ -1,4 +1,4 @@
-import { ItemData, cartAdjustObj } from "./Body";
+import { ItemData, cartAdjustObj, itemDeleteObj } from "./Body";
 import CartItem from "./CartItem";
 import PropTypes from 'prop-types';
 import BackArrow from "./icons/BackArrow";
@@ -13,7 +13,9 @@ const Cart = (props: Cart) => {
                 <div key={cartItem.id}>
                     <CartItem
                         item={cartItem}
+                        quantityInStock={props.itemList.filter(el => el.id === cartItem.id)[0].quantity}
                         adjustFunction={props.adjustFunction}
+                        deleteFunction={props.deleteFunction}
                     />
                 </div>
             )
@@ -33,10 +35,12 @@ const Cart = (props: Cart) => {
 
 interface Cart {
     cartList: ItemData[],
+    itemList: ItemData[],
     purchaseFunction: () => void;
     adjustFunction: (arg1: cartAdjustObj) => void;
     backButton: (arg1: number) => void;
     previousPageView: number;
+    deleteFunction: (arg1: itemDeleteObj) => void;
 }
 
 Cart.propTypes = {
@@ -44,7 +48,8 @@ Cart.propTypes = {
     purchaseFunction: PropTypes.func,
     adjustFunction: PropTypes.func,
     backButton: PropTypes.func,
-    previousPageView: PropTypes.number
+    previousPageView: PropTypes.number,
+    deleteFunction: PropTypes.func,
 }
 
 export default Cart;

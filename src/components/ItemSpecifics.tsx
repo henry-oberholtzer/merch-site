@@ -1,4 +1,4 @@
-import { ItemData } from "./Body";
+import { ItemData, itemDeleteObj } from "./Body";
 import PropTypes from "prop-types";
 import BackArrow from "./icons/BackArrow";
 import CartAddIcon from "./icons/CartAddIcon";
@@ -24,7 +24,9 @@ const ItemSpecifics = (props: ItemSpecifics) => {
         <button onClick={() => {props.addToCart(props.item.id); cartSwitch()}}>{cartAdd ? <CartConfirmIcon /> : <CartAddIcon />}</button>
         <hr />
         <button onClick={() => props.editItem(props.item.id)}>Edit Item</button>
-        <button onClick={() => props.deleteItem(props.item.id)}>Delete Item</button>
+        <button onClick={() => props.deleteItem({
+            id: props.item.id,
+            listName: "itemList"})}>Delete Item</button>
         </>
     );
 }
@@ -42,7 +44,7 @@ interface ItemSpecifics {
     addToCart: (arg1: string) => void;
     backButton: (arg1: number) => void;
     previousPageView: number;
-    deleteItem: (arg1: string) => void;
+    deleteItem: (arg1: itemDeleteObj) => void;
     editItem: (arg1: string) => void;
 }
 

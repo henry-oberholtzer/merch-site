@@ -1,4 +1,4 @@
-import { ItemData, cartAdjustObj } from "./Body";
+import { ItemData, cartAdjustObj, itemDeleteObj } from "./Body";
 import "./CartItem.css";
 
 const CartItem = (props: CartItemProps) => {
@@ -7,11 +7,44 @@ const CartItem = (props: CartItemProps) => {
       <img src={props.item.image} className="cartItemImage"></img>
       <div className="cartItemDesc">
         <p>{props.item.title}</p>
-        <p>{props.item.price}</p>
+        <p><strong>${props.item.price}</strong></p>
       </div>
       <div className="cartItemTotal">
-          <input className="cartItemQuantity" type="number" min="0" onChange={(e) => props.adjustFunction({ id: props.item.id, quantity: parseInt(e.target.value) })} defaultValue={props.item.quantity}></input>
-          <p>Total: {props.item.price * props.item.quantity}</p>
+        <tr>
+          <td>
+            In Cart:
+          </td>
+          <td>
+            <input
+              className="cartItemQuantity"
+              type="number"
+              min="1"
+              max={props.quantityInStock}
+              value={props.item.quantity > props.quantityInStock ? props.quantityInStock : props.item.quantity}
+              onChange={(e) => {
+                const value = parseInt(e.target.value)
+                  props.adjustFunction({
+                    id: props.item.id,
+                    quantity: value
+                  })
+              }}
+            >
+            </input>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Total: {props.item.price * props.item.quantity}</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button onClick={() => props.deleteFunction({
+              id: props.item.id,
+              listName: "cartList"
+            })}>Remove From Cart</button>
+          </td>
+        </tr>
       </div>
     </div>
   )
@@ -19,7 +52,8 @@ const CartItem = (props: CartItemProps) => {
 
 interface CartItemProps {
   item: ItemData
-  // deleteFunction:
+  quantityInStock: number;
+  deleteFunction: (arg1: itemDeleteObj) => void;
   adjustFunction: (arg1: cartAdjustObj) => void;
 }
 

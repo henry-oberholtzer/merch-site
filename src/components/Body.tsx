@@ -15,12 +15,14 @@ export interface ItemData {
   description: string,
   id: string,
 }
-
 export interface cartAdjustObj {
   id: string,
   quantity: number,
 }
-
+export interface itemDeleteObj {
+  id: string,
+  listName: "cartList" | "itemList"
+}
 const Body = () => {
   const [itemList, setItemList] = useState<ItemData[]>(defaultProducts)
   const [pageView, setPageView] = useState<number>(0)
@@ -28,15 +30,13 @@ const Body = () => {
   const [selectedItem, setSelectedItem] = useState<string>("")
   const [itemBeingEdited, setItemBeingEdited] = useState<ItemData>()
   const [cartList, setCartList] = useState<ItemData[]>([])
-
   const pageChange = (pageNumber: number) => {
     setPreviousPageView(pageView)
     setPageView(pageNumber);
   }
-
   const addNewItem = (formData: ItemData) => {
-    if(itemList.filter(el => el.id === formData.id)[0]){
-      setItemList(itemList => itemList.map(el => (el.id === formData.id ? formData : el )))
+    if (itemList.filter(el => el.id === formData.id)[0]) {
+      setItemList(itemList => itemList.map(el => (el.id === formData.id ? formData : el)))
     } else {
       setItemList(oldList => [...oldList, formData])
     }
@@ -50,110 +50,109 @@ const Body = () => {
     const item = itemList.filter(el => el.id === idRecieved)[0]
     if (cartList.filter(el => el.id === idRecieved)[0]) {
       const quantity = cartList.filter(el => el.id === idRecieved)[0].quantity + 1
-      setCartList(cartList => cartList.map(el => (el.id === idRecieved ? {...el, quantity} : el )))
+      setCartList(cartList => cartList.map(el => (el.id === idRecieved ? { ...el, quantity } : el)))
     } else {
       const quantity = 1;
-      setCartList([...cartList, {...item, quantity}])
+      setCartList([...cartList, { ...item, quantity }])
     }
   }
   const cartAdjustFunction = (object: cartAdjustObj) => {
     const quantity = object.quantity
-    setCartList(cartList => cartList.map(el => (el.id === object.id ? {...el, quantity} : el )))
+    setCartList(cartList => cartList.map(el => (el.id === object.id ? { ...el, quantity } : el)))
   }
-  const deleteItem = (idRecieved: string) => {
-    setItemList(itemList => itemList.filter(el => el.id !== idRecieved))
+  const deleteItem = (obj: itemDeleteObj) => {
+    if (obj.listName === "itemList") {
+      setItemList(itemList => itemList.filter(el => el.id !== obj.id))
+    } else if (obj.listName === "cartList") {
+      setCartList(cartList => cartList.filter(el => el.id !== obj.id))
+    }
     setPageView(0)
   }
-  const editItem = (idRecieved: string ) => {
+  const editItem = (idRecieved: string) => {
     const item = itemList.filter(el => el.id === idRecieved)[0]
     setItemBeingEdited(item)
     setPageView(2)
   }
-  const purchaseFunction = () => { 
+  const purchaseFunction = () => {
     console.log("purchase function")
     const newItemList = itemList.map((itemEl) => {
-        const cartItem = cartList.filter(cartEl => cartEl.id === itemEl.id)[0]
-        if (cartItem) {
-          const quantity = itemEl.quantity - cartItem.quantity;
-          return {...itemEl, quantity}
-        } else {
-          return itemEl
-        }
-      })
+      const cartItem = cartList.filter(cartEl => cartEl.id === itemEl.id)[0]
+      if (cartItem) {
+        const quantity = itemEl.quantity - cartItem.quantity;
+        return { ...itemEl, quantity }
+      } else {
+        return itemEl
+      }
+    })
     setItemList(newItemList);
     setCartList([])
   }
   let currentView;
   if (pageView === 0) {
     currentView =
-    <>
-    <ItemDisplay
-      itemList={itemList}
-      callbackFunction={displayItemSpecifics}/>
-    <hr/>
-    <button onClick={() => pageChange(4)}>Add New Item</button>
-    </> 
+      <>
+        <ItemDisplay
+          itemList={itemList}
+          callbackFunction={displayItemSpecifics} />
+        <hr />
+        <button onClick={() => pageChange(4)}>Add New Item</button>
+      </>
   } else if (pageView === 1) {
     currentView =
-    <>
-    <ItemSpecifics
-      item={itemList.filter((item: ItemData) => item.id === selectedItem)[0]}
-      addToCart={addToCart}
-      backButton={setPageView}
-      previousPageView={previousPageView}
-      deleteItem={deleteItem}
-      editItem={editItem}
-    />
-    
-    </>
+      <>
+        <ItemSpecifics
+          item={itemList.filter((item: ItemData) => item.id === selectedItem)[0]}
+          addToCart={addToCart}
+          backButton={setPageView}
+          previousPageView={previousPageView}
+          deleteItem={deleteItem}
+          editItem={editItem}
+        />
+      </>
   } else if (pageView === 2 && itemBeingEdited) {
     currentView =
-    <>
-    <ItemForm
-      handleFormSubmissionFunction={addNewItem}
-      buttonText="Finish Editing"
-      itemData={itemBeingEdited}
-      isNewItem={false}
-    />
-    </>
+      <>
+        <ItemForm
+          handleFormSubmissionFunction={addNewItem}
+          buttonText="Finish Editing"
+          itemData={itemBeingEdited}
+          isNewItem={false}
+        />
+      </>
   } else if (pageView === 3) {
     currentView =
-    <Cart 
-      cartList={cartList}
-      purchaseFunction={purchaseFunction}
-      adjustFunction={cartAdjustFunction}
-      backButton={pageChange}
-      previousPageView={previousPageView}
-      // removeFromCart={}
-      // adjustCart={}
-    />
+      <Cart
+        cartList={cartList}
+        itemList={itemList}
+        purchaseFunction={purchaseFunction}
+        adjustFunction={cartAdjustFunction}
+        backButton={pageChange}
+        previousPageView={previousPageView}
+        deleteFunction={deleteItem}
+      />
   } else if (pageView === 4) {
-    currentView=
-    <ItemForm
+    currentView =
+      <ItemForm
         handleFormSubmissionFunction={addNewItem}
         buttonText="Add New Item"
         itemData={defaultProducts[0]}
         isNewItem={true}
       />
   }
-
   return (
     <>
-    <Header
-      homeButton={pageChange} 
-      cartToRender={
-        <CartInfo 
-          cartList={cartList}
-          setPageView={pageChange}
-        />
-      }
-    
-    />
-      
-    <hr/>
+      <Header
+        homeButton={pageChange}
+        cartToRender={
+          <CartInfo
+            cartList={cartList}
+            setPageView={pageChange}
+          />
+        }
+      />
+      <hr />
       {currentView}
     </>
   )
 }
-
 export default Body;
