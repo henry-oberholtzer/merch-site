@@ -1,4 +1,4 @@
-import { ItemData, cartAdjustObj, itemDeleteObj } from "./interfaces/interfaces";
+import { ItemData, cartAdjustObj, } from "./interfaces/interfaces";
 import CartItem from "./CartItem";
 import PropTypes from 'prop-types';
 import BackArrow from "./icons/BackArrow";
@@ -40,7 +40,7 @@ interface Cart {
     adjustFunction: (arg1: cartAdjustObj) => void;
     backButton: (arg1: number) => void;
     previousPageView: number;
-    deleteFunction: (arg1: itemDeleteObj) => void;
+    deleteFunction: (arg1: string) => void;
 }
 
 Cart.propTypes = {

@@ -6,63 +6,79 @@ import CartInfo from "./CartInfo";
 import { useState } from "react";
 import Cart from "./Cart";
 import Header from "./Header";
-import { ItemData, cartAdjustObj, itemDeleteObj } from "./interfaces/interfaces";
+import { connect, ConnectedProps } from "react-redux";
+import PropTypes from 'prop-types'
+import { ItemData, cartAdjustObj, itemState } from "./interfaces/interfaces";
 
-const Body = () => {
-  const [itemList, setItemList] = useState<ItemData[]>()
-  const [cartList, setCartList] = useState<ItemData[]>([])
+const mapState = (state: itemState) => ({
+  itemList: state
+})
+const mapDispatch = {
+  addItem: (obj: ItemData) => ({ type: 'ADD_ITEM', ...obj }),
+  deleteItem: (id: string) => ({ type: 'DELETE_ITEM', id })
+}
+const connector = connect(mapState, mapDispatch)
+type PropsFromRedux = ConnectedProps<typeof connector>
+interface Props extends PropsFromRedux {
+
+}
+
+const Body = (props: Props) => {
+  const [cartList, setCartList] = useState<itemState>({})
   const [selectedItem, setSelectedItem] = useState<string>("")
   const [itemBeingEdited, setItemBeingEdited] = useState<ItemData>()
   const [pageView, setPageView] = useState<number>(0)
   const [previousPageView, setPreviousPageView] = useState<number>(0)
-  
-  setItemList(defaultProducts)
+  const { deleteItem } = props;
 
   const pageChange = (pageNumber: number) => {
     setPreviousPageView(pageView)
     setPageView(pageNumber);
   }
   const addNewItem = (formData: ItemData) => {
-    if (itemList.filter(el => el.id === formData.id)[0]) {
-      setItemList(itemList => itemList.map(el => (el.id === formData.id ? formData : el)))
-    } else {
-      setItemList(oldList => [...oldList, formData])
+    const { addItem } = props;
+    const { quantity, price, title, image, description, id } = formData
+    const action = {
+      type: 'ADD_ITEM',
+      quantity: quantity,
+      price: price,
+      title: title,
+      image: image,
+      description: description,
+      id: id,
     }
+    addItem(action)
     pageChange(0);
   }
+
   const displayItemSpecifics = (id: string) => {
     pageChange(1)
     setSelectedItem(id)
   }
+
   const addToCart = (idRecieved: string) => {
-    const item = itemList.filter(el => el.id === idRecieved)[0]
-    if (cartList.filter(el => el.id === idRecieved)[0]) {
-      const quantity = cartList.filter(el => el.id === idRecieved)[0].quantity + 1
-      setCartList(cartList => cartList.map(el => (el.id === idRecieved ? { ...el, quantity } : el)))
-    } else {
+    const item = props.itemList[idRecieved]
+    if (cartList[idRecieved]) {
+      const quantity = cartList[idRecieved].quantity + 1
+      const newCartItem = {...cartList[idRecieved], quantity}
+      setCartList({...cartList, newCartItem})
+    } else if (!cartList[idRecieved]) {
       const quantity = 1;
-      setCartList([...cartList, { ...item, quantity }])
+      const newItem = { ...item, quantity }
+      setCartList({...cartList, newItem})
     }
   }
   const cartAdjustFunction = (object: cartAdjustObj) => {
     const quantity = object.quantity
     setCartList(cartList => cartList.map(el => (el.id === object.id ? { ...el, quantity } : el)))
   }
-  const deleteItem = (obj: itemDeleteObj) => {
-    if (obj.listName === "itemList") {
-      setItemList(itemList => itemList.filter(el => el.id !== obj.id))
-    } else if (obj.listName === "cartList") {
-      setCartList(cartList => cartList.filter(el => el.id !== obj.id))
-    }
-    setPageView(0)
-  }
+
   const editItem = (idRecieved: string) => {
-    const item = itemList.filter(el => el.id === idRecieved)[0]
+    const item = props.itemList[idRecieved]
     setItemBeingEdited(item)
     setPageView(2)
   }
   const purchaseFunction = () => {
-    console.log("purchase function")
     const newItemList = itemList.map((itemEl) => {
       const cartItem = cartList.filter(cartEl => cartEl.id === itemEl.id)[0]
       if (cartItem) {
@@ -73,8 +89,9 @@ const Body = () => {
       }
     })
     setItemList(newItemList);
-    setCartList([])
+    setCartList({})
   }
+
   let currentView;
   if (pageView === 0) {
     currentView =
@@ -89,7 +106,7 @@ const Body = () => {
     currentView =
       <>
         <ItemSpecifics
-          item={itemList.filter((item: ItemData) => item.id === selectedItem)[0]}
+          item={props.itemList[selectedItem]}
           addToCart={addToCart}
           backButton={setPageView}
           previousPageView={previousPageView}
@@ -143,4 +160,9 @@ const Body = () => {
     </>
   )
 }
+
+Body.propTypes = {
+  itemList: PropTypes.object
+}
+
 export default Body;

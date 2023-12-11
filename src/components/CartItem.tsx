@@ -1,4 +1,4 @@
-import { ItemData, cartAdjustObj, itemDeleteObj } from "./interfaces/interfaces";
+import { ItemData, cartAdjustObj, } from "./interfaces/interfaces";
 import "./CartItem.css";
 
 const CartItem = (props: CartItemProps) => {
@@ -39,10 +39,7 @@ const CartItem = (props: CartItemProps) => {
         </tr>
         <tr>
           <td>
-            <button onClick={() => props.deleteFunction({
-              id: props.item.id,
-              listName: "cartList"
-            })}>Remove From Cart</button>
+            <button onClick={() => props.deleteFunction(props.item.id)}>Remove From Cart</button>
           </td>
         </tr>
       </div>
@@ -53,7 +50,7 @@ const CartItem = (props: CartItemProps) => {
 interface CartItemProps {
   item: ItemData
   quantityInStock: number;
-  deleteFunction: (arg1: itemDeleteObj) => void;
+  deleteFunction: (arg1: string) => void;
   adjustFunction: (arg1: cartAdjustObj) => void;
 }
 

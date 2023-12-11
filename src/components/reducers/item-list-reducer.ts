@@ -1,4 +1,4 @@
-import { actionInterface, itemState } from "../components/interfaces/interfaces";
+import { actionInterface, itemState } from "../interfaces/interfaces";
 
 
 const reducer = (state: itemState = {}, action: actionInterface) => {

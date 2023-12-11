@@ -1,4 +1,4 @@
-import itemListReducer from "../../reducers/item-list-reducer";
+import itemListReducer from "../../components/reducers/item-list-reducer";
 import { ItemData, itemState } from "../../components/interfaces/interfaces";
 
 
