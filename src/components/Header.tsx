@@ -8,7 +8,7 @@ const Header = (props: props) => {
 
         </div>
         <div className="headerDiv">
-        <h1 className="headerTitle" onClick={() => props.homeButton(0)}>Henry & Teddy's Shop</h1>
+        <h1 className="headerTitle" onClick={() => props.homeButton(0)}>Hear The Noise Records</h1>
         </div>
         <div className="headerDiv">
         {props.cartToRender}
