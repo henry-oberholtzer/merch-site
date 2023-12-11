@@ -1,4 +1,4 @@
-import { ItemData, cartAdjustObj, itemDeleteObj } from "./Body";
+import { ItemData, cartAdjustObj, itemDeleteObj } from "./interfaces/interfaces";
 import CartItem from "./CartItem";
 import PropTypes from 'prop-types';
 import BackArrow from "./icons/BackArrow";

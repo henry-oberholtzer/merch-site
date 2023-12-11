@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types"
-import { ItemData } from "./Body";
+import { ItemData } from "./interfaces/interfaces";
 import { v4 }from 'uuid';
 
 const ItemForm = (props: ItemFormProps) => {

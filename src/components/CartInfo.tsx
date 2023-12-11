@@ -1,4 +1,4 @@
-import { ItemData } from "./Body";
+import { ItemData } from "./interfaces/interfaces";
 import PropTypes from 'prop-types';
 
 const CartInfo = (props: CartInfo) => {

@@ -6,30 +6,18 @@ import CartInfo from "./CartInfo";
 import { useState } from "react";
 import Cart from "./Cart";
 import Header from "./Header";
+import { ItemData, cartAdjustObj, itemDeleteObj } from "./interfaces/interfaces";
 
-export interface ItemData {
-  quantity: number,
-  price: number,
-  image: string,
-  title: string,
-  description: string,
-  id: string,
-}
-export interface cartAdjustObj {
-  id: string,
-  quantity: number,
-}
-export interface itemDeleteObj {
-  id: string,
-  listName: "cartList" | "itemList"
-}
 const Body = () => {
-  const [itemList, setItemList] = useState<ItemData[]>(defaultProducts)
-  const [pageView, setPageView] = useState<number>(0)
-  const [previousPageView, setPreviousPageView] = useState<number>(0)
+  const [itemList, setItemList] = useState<ItemData[]>()
+  const [cartList, setCartList] = useState<ItemData[]>([])
   const [selectedItem, setSelectedItem] = useState<string>("")
   const [itemBeingEdited, setItemBeingEdited] = useState<ItemData>()
-  const [cartList, setCartList] = useState<ItemData[]>([])
+  const [pageView, setPageView] = useState<number>(0)
+  const [previousPageView, setPreviousPageView] = useState<number>(0)
+  
+  setItemList(defaultProducts)
+
   const pageChange = (pageNumber: number) => {
     setPreviousPageView(pageView)
     setPageView(pageNumber);

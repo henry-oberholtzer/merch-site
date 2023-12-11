@@ -1,4 +1,4 @@
-import { ItemData, cartAdjustObj, itemDeleteObj } from "./Body";
+import { ItemData, cartAdjustObj, itemDeleteObj } from "./interfaces/interfaces";
 import "./CartItem.css";
 
 const CartItem = (props: CartItemProps) => {
